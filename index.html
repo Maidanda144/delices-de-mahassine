@@ -1,110 +1,333 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Les Délices de Mahassine 🧁</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Délices de Mahassine - Accra 🧁</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes bounceGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(251, 146, 60, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(251, 146, 60, 0.8); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes pulseCupcake {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.05) rotate(-3deg); }
+        }
+        .bounce-glow { animation: bounceGlow 2s infinite; }
+        .float-hover:hover { animation: float 2s ease-in-out infinite; }
+        .pulse-cupcake { animation: pulseCupcake 3s infinite; }
+    </style>
 </head>
-
 <body class="bg-gradient-to-br from-orange-50 to-pink-50 min-h-screen">
 
-<!-- LOGIN -->
-<div id="loginScreen" class="fixed inset-0 bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center z-50 p-4">
-  <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-10 w-full max-w-md">
+    <!-- LOGIN (TOUJOURS VISIBLE AU DÉBUT) -->
+    <div id="loginScreen" class="fixed inset-0 bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center z-50 p-4 sm:p-8">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-12 w-full max-w-sm sm:max-w-md border-4 sm:border-8 border-white mx-4 bounce-glow">
+            <div class="text-center mb-8 sm:mb-12">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 text-3xl sm:text-5xl text-white shadow-2xl pulse-cupcake">
+                    🧁
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-bold text-gray-800 mb-4 drop-shadow-lg">Les Délices de Mahassine</h1>
+                <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 mb-8">
+                    <button onclick="showLogin()" id="loginTab" class="px-6 py-4 sm:px-8 sm:py-3 bg-orange-500 text-white font-bold rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 text-base sm:text-lg min-h-[48px]">Connexion</button>
+                    <button onclick="showRegister()" id="registerTab" class="px-6 py-4 sm:px-8 sm:py-3 bg-gray-200 text-gray-800 font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 text-base sm:text-lg min-h-[48px]">Créer</button>
+                </div>
+            </div>
 
-    <div class="text-center mb-8">
-      <div class="w-20 h-20 md:w-28 md:h-28 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl md:text-5xl text-white">
-        🧁
-      </div>
-      <h1 class="text-2xl md:text-4xl font-bold">Les Délices de Mahassine</h1>
+            <!-- FORM LOGIN -->
+            <div id="loginForm" class="space-y-4 sm:space-y-6">
+                <input type="email" id="loginEmail" placeholder="Email" class="w-full p-4 sm:p-5 text-lg sm:text-xl border-2 sm:border-4 border-gray-200 rounded-xl sm:rounded-2xl focus:border-orange-400 focus:outline-none focus:ring-4 focus:ring-orange-200 text-center transition-all duration-200 hover:shadow-md">
+                <input type="password" id="loginPass" placeholder="Mot de passe" class="w-full p-4 sm:p-5 text-lg sm:text-xl border-2 sm:border-4 border-gray-200 rounded-xl sm:rounded-2xl focus:border-orange-400 focus:outline-none focus:ring-4 focus:ring-orange-200 text-center transition-all duration-200 hover:shadow-md">
+                <button onclick="loginUser()" class="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-5 sm:py-6 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold shadow-2xl hover:shadow-3xl hover:-translate-y-2 active:scale-95 transition-all duration-200 min-h-[48px] float-hover">
+                    🚀 ENTRER
+                </button>
+            </div>
+
+            <!-- FORM REGISTER -->
+            <div id="registerForm" class="hidden space-y-4 sm:space-y-6">
+                <input type="text" id="regName" placeholder="Ton nom" class="w-full p-4 sm:p-5 text-lg sm:text-xl border-2 sm:border-4 border-gray-200 rounded-xl sm:rounded-2xl focus:border-orange-400 focus:outline-none focus:ring-4 focus:ring-orange-200 text-center transition-all duration-200 hover:shadow-md">
+                <input type="email" id="regEmail" placeholder="Email" class="w-full p-4 sm:p-5 text-lg sm:text-xl border-2 sm:border-4 border-gray-200 rounded-xl sm:rounded-2xl focus:border-orange-400 focus:outline-none focus:ring-4 focus:ring-orange-200 text-center transition-all duration-200 hover:shadow-md">
+                <input type="password" id="regPass" placeholder="Mot de passe" class="w-full p-4 sm:p-5 text-lg sm:text-xl border-2 sm:border-4 border-gray-200 rounded-xl sm:rounded-2xl focus:border-orange-400 focus:outline-none focus:ring-4 focus:ring-orange-200 text-center transition-all duration-200 hover:shadow-md">
+                <button onclick="registerUser()" class="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-5 sm:py-6 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold shadow-2xl hover:shadow-3xl hover:-translate-y-2 active:scale-95 transition-all duration-200 min-h-[48px] float-hover">
+                    ✨ CRÉER COMPTE
+                </button>
+            </div>
+
+            <p id="loginError" class="hidden mt-4 sm:mt-6 p-3 sm:p-4 bg-red-200 border-2 border-red-400 text-red-800 rounded-lg sm:rounded-xl text-lg sm:text-xl font-bold text-center animate-pulse"></p>
+        </div>
     </div>
 
-    <div class="flex justify-center gap-3 mb-6">
-      <button onclick="showLogin()" id="loginTab" class="px-4 py-2 md:px-6 md:py-3 bg-orange-500 text-white rounded-xl font-bold">
-        Connexion
-      </button>
-      <button onclick="showRegister()" id="registerTab" class="px-4 py-2 md:px-6 md:py-3 bg-gray-200 rounded-xl font-bold">
-        Créer
-      </button>
+    <!-- APP (CACHÉE) -->
+    <div id="mainApp" class="hidden">
+        <header class="bg-white p-4 sm:p-6 shadow-2xl sticky top-0 z-40 border-b-4 sm:border-b-8 border-orange-400 backdrop-blur-md">
+            <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 px-2 sm:px-0">
+                <div class="flex items-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-pink-500 to-orange-500 rounded-2xl sm:rounded-3xl flex items-center justify-center mr-4 sm:mr-6 text-3xl sm:text-4xl flex-shrink-0 bounce-glow">
+                        🧁
+                    </div>
+                    <div>
+                        <h1 class="text-2xl sm:text-4xl font-bold text-orange-600 drop-shadow-lg">Les Délices de Mahassine</h1>
+                        <p id="userNameDisplay" class="text-lg sm:text-2xl font-semibold text-gray-700"></p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-lg sm:text-xl shadow-xl hover:shadow-2xl active:scale-95 transition-all duration-200 w-full sm:w-auto min-h-[48px]">
+                    ❌ Déconnexion
+                </button>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <h2 class="text-4xl sm:text-6xl font-black text-purple-700 mb-12 sm:mb-16 text-center drop-shadow-2xl animate-pulse">🍰 Nos GÂTEAUX</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16 sm:mb-24">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-orange-200 float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">Cupcake 100f</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-3 sm:mb-4 drop-shadow-lg">100f</p>
+                    <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Nature</p>
+                    <button onclick="addToCart('Cupcake 100f', 100)" class="w-full bg-gradient-to-r from-pink-500 to-orange-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-orange-200 float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">Cupcake 150f</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-3 sm:mb-4 drop-shadow-lg">150f</p>
+                    <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Coco banane</p>
+                    <button onclick="addToCart('Cupcake 150f', 150)" class="w-full bg-gradient-to-r from-pink-500 to-orange-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-orange-200 float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">Cupcake 200f</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-3 sm:mb-4 drop-shadow-lg">200f</p>
+                    <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Cacao premium</p>
+                    <button onclick="addToCart('Cupcake 200f', 200)" class="w-full bg-gradient-to-r from-pink-500 to-orange-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-orange-200 float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">Gâteau Choco 1/4</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-3 sm:mb-4 drop-shadow-lg">2500f</p>
+                    <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Gourmand !</p>
+                    <button onclick="addToCart('Gâteau Choco 1/4', 2500)" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-orange-200 float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">Tiramisu 1/4</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-3 sm:mb-4 drop-shadow-lg">1000f</p>
+                    <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Irrésistible !</p>
+                    <button onclick="addToCart('Tiramisu 1/4', 1000)" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+            </div>
+
+            <h2 class="text-4xl sm:text-6xl font-black text-green-700 mb-12 sm:mb-16 text-center drop-shadow-2xl animate-pulse">🍪 AMUSE-GUEULES</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-green-200 text-center float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Toffee Coco</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-4 sm:mb-6 drop-shadow-lg">500f</p>
+                    <button onclick="addToCart('Toffee Coco', 500)" class="w-full bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-green-200 text-center float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Biscuits Coco</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-4 sm:mb-6 drop-shadow-lg">600f</p>
+                    <button onclick="addToCart('Biscuits Coco', 600)" class="w-full bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+                <div class="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-4xl hover:-translate-y-4 active:scale-95 transition-all duration-300 border-2 sm:border-4 border-green-200 text-center float-hover">
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Chips Patate</h3>
+                    <p class="text-3xl sm:text-4xl font-black text-orange-600 mb-4 sm:mb-6 drop-shadow-lg">500f</p>
+                    <button onclick="addToCart('Chips Patate Douce', 500)" class="w-full bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-4 rounded-xl sm:rounded-2xl text-xl sm:text-2xl font-bold hover:shadow-3xl hover:-translate-y-1 active:scale-95 transition-all duration-200 min-h-[48px] pulse-cupcake">
+                        ➕ AJOUTER
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- PANIER -->
+        <div id="cartPanel" class="fixed bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 bg-white shadow-3xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 border-4 border-orange-400 z-50 hidden max-h-80 sm:max-h-96 overflow-y-auto backdrop-blur-md">
+            <h3 class="text-2xl sm:text-4xl font-bold mb-6 sm:mb-8 drop-shadow-lg">🛒 Panier (<span id="cartCount">0</span>)</h3>
+            <div id="cartItems" class="mb-6 sm:mb-8"></div>
+            <div class="border-t-4 border-orange-300 pt-6 sm:pt-8">
+                <div class="text-3xl sm:text-5xl font-black text-orange-600 mb-6 sm:mb-8 text-center drop-shadow-2xl">
+                    TOTAL: <span id="cartTotal">0f</span>
+                </div>
+                <a id="whatsappBtn" href="#" class="block w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 sm:py-6 rounded-2xl sm:rounded-3xl text-2xl sm:text-3xl font-bold text-center hover:shadow-3xl hover:-translate-y-2 active:scale-95 transition-all duration-200 bounce-glow">
+                    💬 WhatsApp Commande
+                </a>
+            </div>
+        </div>
+
+        <button onclick="toggleCart()" id="cartBtn" class="fixed bottom-6 sm:bottom-8 right-6 sm:right-8 w-20 h-20 sm:w-24 sm:h-24 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-3xl sm:text-4xl font-bold shadow-2xl hover:shadow-3xl hover:-translate-y-2 active:scale-90 transition-all duration-200 z-40 bounce-glow">
+            🛒<span id="cartBadge" class="text-lg sm:text-xl ml-1 bg-red-500 px-2 py-1 rounded-full">0</span>
+        </button>
     </div>
 
-    <div id="loginForm" class="space-y-4">
-      <input type="email" placeholder="Email" class="w-full p-3 md:p-4 border rounded-xl text-center">
-      <input type="password" placeholder="Mot de passe" class="w-full p-3 md:p-4 border rounded-xl text-center">
-      <button onclick="loginUser()" class="w-full bg-orange-500 text-white py-3 rounded-xl text-lg font-bold">
-        🚀 Entrer
-      </button>
-    </div>
+    <script>
+        // **NUMÉRO WHATSAPP INTÉGRÉ : +22781175695**
+        const WHATSAPP_NUMBER = '22781175695';
+        
+        let users = [];
+        let currentUser = null;
+        let cart = [];
 
-    <div id="registerForm" class="hidden space-y-4">
-      <input type="text" placeholder="Nom" class="w-full p-3 border rounded-xl text-center">
-      <input type="email" placeholder="Email" class="w-full p-3 border rounded-xl text-center">
-      <input type="password" placeholder="Mot de passe" class="w-full p-3 border rounded-xl text-center">
-      <button onclick="registerUser()" class="w-full bg-green-500 text-white py-3 rounded-xl text-lg font-bold">
-        ✨ Créer compte
-      </button>
-    </div>
+        function init() {
+            if (!localStorage.getItem('users')) {
+                users = [{name: 'Test User', email: 'test@test.com', password: '123456'}];
+                localStorage.setItem('users', JSON.stringify(users));
+            } else {
+                users = JSON.parse(localStorage.getItem('users'));
+            }
+            showLogin();
+        }
 
-    <p id="loginError" class="hidden mt-4 text-center text-red-600 font-bold"></p>
-  </div>
-</div>
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginTab').classList.add('bg-orange-500', 'text-white');
+            document.getElementById('registerTab').classList.remove('bg-orange-500', 'text-white');
+        }
 
-<!-- APP -->
-<div id="mainApp" class="hidden">
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('registerTab').classList.add('bg-orange-500', 'text-white');
+            document.getElementById('loginTab').classList.remove('bg-orange-500', 'text-white');
+        }
 
-<header class="bg-white p-4 md:p-6 shadow sticky top-0 z-40">
-  <div class="flex items-center justify-between max-w-5xl mx-auto">
-    <h1 class="text-xl md:text-3xl font-bold text-orange-600">🧁 Mahassine</h1>
-    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded-xl">
-      ❌
-    </button>
-  </div>
-</header>
+        function loginUser() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            const user = users.find(u => u.email === email && u.password === pass);
+            
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').classList.remove('hidden');
+                document.getElementById('userNameDisplay').textContent = user.name;
+                updateCart();
+            } else {
+                document.getElementById('loginError').textContent = '❌ Email ou mot de passe incorrect !';
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
 
-<main class="max-w-5xl mx-auto px-4 py-8">
+        function registerUser() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
 
-<h2 class="text-3xl md:text-5xl font-black text-center mb-10">🍰 Nos Gâteaux</h2>
+            if (!name || !email || !pass) {
+                document.getElementById('loginError').textContent = '❌ Remplis tous les champs !';
+                document.getElementById('loginError').classList.remove('hidden');
+                return;
+            }
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            if (users.find(u => u.email === email)) {
+                document.getElementById('loginError').textContent = '❌ Email déjà utilisé !';
+                document.getElementById('loginError').classList.remove('hidden');
+                return;
+            }
 
-<div class="bg-white p-5 rounded-2xl shadow">
-  <h3 class="text-xl font-bold">Cupcake 100f</h3>
-  <p class="text-2xl font-black text-orange-600">100f</p>
-  <button onclick="addToCart('Cupcake 100f',100)" class="mt-4 w-full bg-orange-500 text-white py-2 rounded-xl">
-    ➕ Ajouter
-  </button>
-</div>
+            const newUser = {name, email, password: pass};
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('userNameDisplay').textContent = name;
+            updateCart();
+        }
 
-<div class="bg-white p-5 rounded-2xl shadow">
-  <h3 class="text-xl font-bold">Cupcake 150f</h3>
-  <p class="text-2xl font-black text-orange-600">150f</p>
-  <button onclick="addToCart('Cupcake 150f',150)" class="mt-4 w-full bg-orange-500 text-white py-2 rounded-xl">
-    ➕ Ajouter
-  </button>
-</div>
+        function logout() {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginScreen').style.display = 'flex';
+            currentUser = null;
+            document.getElementById('loginForm').querySelectorAll('input').forEach(i => i.value = '');
+            document.getElementById('registerForm').querySelectorAll('input').forEach(i => i.value = '');
+            document.getElementById('loginError').classList.add('hidden');
+            showLogin();
+        }
 
-<div class="bg-white p-5 rounded-2xl shadow">
-  <h3 class="text-xl font-bold">Cupcake 200f</h3>
-  <p class="text-2xl font-black text-orange-600">200f</p>
-  <button onclick="addToCart('Cupcake 200f',200)" class="mt-4 w-full bg-orange-500 text-white py-2 rounded-xl">
-    ➕ Ajouter
-  </button>
-</div>
+        function addToCart(name, price) {
+            const item = cart.find(i => i.name === name);
+            if (item) {
+                item.qty++;
+            } else {
+                cart.push({name, price, qty: 1});
+            }
+            updateCart();
+        }
 
-</div>
-</main>
+        function updateCart() {
+            const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+            const totalPrice = cart.reduce((a, b) => a + (b.price * b.qty), 0);
 
-<!-- BOUTON PANIER MOBILE -->
-<button onclick="toggleCart()" class="fixed bottom-4 right-4 w-16 h-16 bg-orange-500 text-white rounded-full text-2xl shadow-xl">
-🛒
-</button>
+            document.getElementById('cartCount').textContent = totalItems;
+            document.getElementById('cartBadge').textContent = totalItems;
+            document.getElementById('cartTotal').textContent = totalPrice + 'f';
 
-</div>
+            if (totalItems > 0) {
+                document.getElementById('cartPanel').classList.remove('hidden');
+            } else {
+                document.getElementById('cartPanel').classList.add('hidden');
+            }
 
-<script>
-/* JS inchangé */
-</script>
+            document.getElementById('cartItems').innerHTML = cart.map((item, i) => `
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:p-6 bg-gradient-to-r from-orange-50 to-pink-50 rounded-2xl sm:rounded-3xl mb-4 hover:shadow-xl transition-all duration-200">
+                    <div class="mb-4 sm:mb-0">
+                        <div class="text-xl sm:text-2xl font-bold">${item.name}</div>
+                        <div class="text-2xl sm:text-3xl font-black text-orange-600">${item.price}f x ${item.qty}</div>
+                    </div>
+                    <div class="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
+                        <button onclick="changeQty(${i}, -1)" class="flex-1 sm:w-16 sm:flex-none h-14 sm:h-16 bg-gray-300 hover:bg-gray-400 rounded-xl sm:rounded-2xl text-2xl sm:text-3xl font-bold active:scale-90 transition-all duration-200">-</button>
+                        <span class="text-2xl sm:text-3xl font-bold w-12 sm:w-auto text-center">${item.qty}</span>
+                        <button onclick="changeQty(${i}, 1)" class="flex-1 sm:w-16 sm:flex-none h-14 sm:h-16 bg-orange-500 hover:bg-orange-600 text-white rounded-xl sm:rounded-2xl text-2xl sm:text-3xl font-bold active:scale-90 transition-all duration-200">+</button>
+                    </div>
+                </div>
+            `).join('') || '<div class="text-center py-12"><p class="text-xl sm:text-2xl text-gray-500 animate-bounce">🛒 Panier vide</p></div>';
 
+            document.getElementById('whatsappBtn').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                `🍰 *LES DÉLICES DE MAHASSINE* 📍 Accra\n` +
+                (currentUser ? `👤 ${currentUser.name}\n` : '') +
+                `\n🛒 *MA COMMANDE :*\n` +
+                cart.map(item => `• ${item.name} x${item.qty} = ${item.price * item.qty}f`).join('\n') +
+                `\n\n💰 *TOTAL : ${totalPrice}f*\n📲 Livraison Accra`
+            )}`;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            document.getElementById('cartPanel').classList.toggle('hidden');
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                if (document.getElementById('registerForm').style.display !== 'none') {
+                    registerUser();
+                } else {
+                    loginUser();
+                }
+            }
+        });
+
+        init();
+    </script>
 </body>
 </html>
